@@ -20,8 +20,9 @@ class MainActivity : AppCompatActivity() {
             androidContext(this@MainActivity)
             modules(
                 module {
-                    single { Student("student-kim") }
-                    single { Teacher("teacher-cho", get()) }
+                    single(named("park")) { Student("student-park") }
+                    single(named("kim")) { Student("student-kim") }
+                    single { Teacher("teacher-cho", get(named("park"))) }
                 }
             )
         }
