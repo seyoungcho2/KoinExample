@@ -8,6 +8,7 @@ import com.teamcarelab.koinexample.`object`.Teacher
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 class MainActivity : AppCompatActivity() {
@@ -20,17 +21,16 @@ class MainActivity : AppCompatActivity() {
             modules(
                 module {
                     /* 하나만 생성되고 재활용되는 Singleton Object 만들기 */
-                    single { Teacher("teacher-cho") }
-                    /* 매번 새로 생성되는 Factory Object 만들기 */
-                    factory { Student("student-kim") }
+                    single(named("cho")) { Student("student-cho") }
+                    single(named("kim")) { Student("student-kim") }
                 }
             )
         }
 
-        val teacher : Teacher by inject()
-        val student : Student by inject()
+        val studentCho : Student by inject(named("cho"))
+        val studentKim : Student by inject(named("kim"))
 
-        findViewById<TextView>(R.id.textViewTeacher).text = teacher.name
-        findViewById<TextView>(R.id.textViewStudent).text = student.name
+        findViewById<TextView>(R.id.textViewTeacher).text = studentCho.name
+        findViewById<TextView>(R.id.textViewStudent).text = studentKim.name
     }
 }
