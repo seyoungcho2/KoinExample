@@ -20,16 +20,19 @@ class MainActivity : AppCompatActivity() {
             androidContext(this@MainActivity)
             modules(
                 module {
-                    single(named("park")) { Student("student-park") }
                     single(named("kim")) { Student("student-kim") }
-                    single { Teacher("teacher-cho", get(named("park"))) }
+                    factory(named("cho")) { Student("student-cho") }
                 }
             )
         }
 
-        val teacherCho: Teacher by inject()
+        val studentKim1 : Student by inject(named("kim"))
+        val studentKim2 : Student by inject(named("kim"))
 
-        findViewById<TextView>(R.id.textViewTeacher).text = teacherCho.name
-        findViewById<TextView>(R.id.textViewStudent).text = teacherCho.teachingStudent.name
+        val studentCho1 : Student by inject(named("cho"))
+        val studentCho2 : Student by inject(named("cho"))
+
+        findViewById<TextView>(R.id.textViewTeacher).text = (studentKim1 === studentKim2).toString() // true
+        findViewById<TextView>(R.id.textViewStudent).text = (studentCho1 === studentCho2).toString() // false
     }
 }
