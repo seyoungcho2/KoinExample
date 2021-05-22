@@ -20,17 +20,15 @@ class MainActivity : AppCompatActivity() {
             androidContext(this@MainActivity)
             modules(
                 module {
-                    /* 하나만 생성되고 재활용되는 Singleton Object 만들기 */
-                    single(named("cho")) { Student("student-cho") }
-                    single(named("kim")) { Student("student-kim") }
+                    single { Student("student-kim") }
+                    single { Teacher("teacher-cho", get()) }
                 }
             )
         }
 
-        val studentCho : Student by inject(named("cho"))
-        val studentKim : Student by inject(named("kim"))
+        val teacherCho: Teacher by inject()
 
-        findViewById<TextView>(R.id.textViewTeacher).text = studentCho.name
-        findViewById<TextView>(R.id.textViewStudent).text = studentKim.name
+        findViewById<TextView>(R.id.textViewTeacher).text = teacherCho.name
+        findViewById<TextView>(R.id.textViewStudent).text = teacherCho.teachingStudent.name
     }
 }
